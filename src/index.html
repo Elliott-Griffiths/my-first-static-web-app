@@ -16,9 +16,27 @@
 
   <script>
     (async function () {
-      const { body } = await (await fetch('/api/message')).json();
-      document.querySelector('#name').textContent = body;
+      try {
+        const response = await fetch('/api/message');
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${ response.status }`);
+        }
+
+        const contentType = response.headers.get('content-type');
+
+        if (contentType && contentType.includes('application/json')) {
+          const data = await response.json();
+          document.querySelector('#name').textContent = data.body;
+        } else {
+          // Handle the case where the response is not JSON
+          console.error('Invalid content type in response');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
     })();
+
   </script>
 </body>
 
