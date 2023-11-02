@@ -16,9 +16,9 @@
 
   <script>
     (async function () {
-      const { text } = await (await fetch(`/api/src/functions/message`)).json();
-      document.querySelector('#name').textContent = text;
-    }());
+      const { body } = await (await fetch('/api/message')).json();
+      document.querySelector('#name').textContent = body;
+    })();
   </script>
 </body>
 
